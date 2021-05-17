@@ -1,0 +1,19 @@
+{
+  "name": "cosync-jwt-react-native",
+  "version": "1.0.0",
+  "description": "Cosync JWT React Native RESTful api for Cosnync JWT services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cosync/CosyncJWTReact.git"
+  },
+  "author": "Cosync Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cosync/CosyncJWTReact/issues"
+  },
+  "homepage": "https://github.com/Cosync/CosyncJWTReact#readme"
+}
