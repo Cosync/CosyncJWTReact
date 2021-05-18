@@ -20,7 +20,7 @@
 //  under the License.
 //
 //  Created by Tola Voeung.
-//  Copyright © 2020 cosync. All rights reserved.
+//  Copyright © 2021 cosync. All rights reserved.
 // 
 
 
@@ -93,33 +93,7 @@ module.exports  = class HttpService {
         
             
         })
-    }
-
-
-    /**
-     * 
-     * @returns 
-     */
-    getCosyncApplicationData() {
-        return new Promise((resolve, reject) => {  
-    
-            let option = {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'app-token': this.config.appToken
-                },
-            };  
-    
-            fetch(`${this.config.apiUrl}/api/appuser/getApplication`, option)
-            .then((response) => response.json())
-            .then((json) => resolve(json))
-            .catch((error) => reject(error));  
-    
-        })
     } 
-
 }
  
        

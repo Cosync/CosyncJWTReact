@@ -1,7 +1,7 @@
 {
   "name": "cosync-jwt-react-native",
   "version": "1.0.0",
-  "description": "Cosync JWT React Native RESTful api for Cosnync JWT services",
+  "description": "React Native RESTful api for Cosnync JWT Services",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

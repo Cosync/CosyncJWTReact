@@ -24,6 +24,6 @@
 // 
 
 'use strict';
-const CosyncJWT = require('./CosyncJWT');
+const CosyncJWT = require('./cosync/CosyncJWT');
 
 module.exports = CosyncJWT;

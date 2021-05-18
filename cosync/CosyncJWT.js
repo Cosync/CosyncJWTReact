@@ -25,13 +25,13 @@
 // 
 
 'use strict';
-const App = require('./cosync/App'); 
-const Profile = require("./cosync/Profile"); 
-const Login = require("./cosync/Login");
-const SignUp = require("./cosync/SignUp");
-const Password = require("./cosync/Password");
-const Register = require("./cosync/Register");
-const HttpService = require("./cosync/utils/HttpService");
+const App = require('./App'); 
+const Profile = require("./Profile"); 
+const Login = require("./Login");
+const SignUp = require("./SignUp");
+const Password = require("./Password");
+const Register = require("./Register");
+const HttpService = require("./utils/HttpService");
 
 let _profile, _app, _login, _signup, _pasword, _config, _register;
 
