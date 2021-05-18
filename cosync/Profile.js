@@ -66,7 +66,7 @@ module.exports = class Profile {
                 senderUserId: senderUserId
             };
 
-            this.httpService.post('/api/appuser/invite', dataTosend).then(data => { 
+            this.httpService.post('/api/appuser/invite', dataTosend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -86,7 +86,7 @@ module.exports = class Profile {
                 code: code 
             };
 
-            this.httpService.post('/api/appuser/verifyPhone', dataTosend).then(data => { 
+            this.httpService.post('/api/appuser/verifyPhone', dataTosend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -106,7 +106,7 @@ module.exports = class Profile {
                 phone: phone 
             };
 
-            this.httpService.post('/api/appuser/setPhone', dataTosend).then(data => { 
+            this.httpService.post('/api/appuser/setPhone', dataTosend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -126,7 +126,7 @@ module.exports = class Profile {
                 twoFactor: value 
             };
 
-            this.httpService.post('/api/appuser/setTwoFactorGoogleVerification', dataTosend).then(data => { 
+            this.httpService.post('/api/appuser/setTwoFactorGoogleVerification', dataTosend).then(result => { 
                 if(result == true || result.googleSecretKey) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
