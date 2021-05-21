@@ -63,19 +63,19 @@ module.exports = class SignUp {
      * @param {*} signupCode 
      */
     completeSignup(userEmail, signupCode) {
+        return new Promise((resolve, reject) => {  
+            let dataToSend = {
+                handle: userEmail,
+                code: signupCode 
+            }; 
 
-        let dataToSend = {
-            handle: userEmail,
-            code: signupCode 
-        }; 
+            this.httpService.post('/api/appuser/completeSignup', dataToSend).then(result => {
 
-        this.httpService.post('/api/appuser/completeSignup', dataToSend).then(result => {
+                if(result && result.jwt) resolve(result);
+                else reject(result);
 
-            if(result && result.jwt) resolve(result);
-            else reject(result);
-
-        }).catch((error) => reject(error)); 
-        
+            }).catch((error) => reject(error)); 
+        });
     }
  
 
