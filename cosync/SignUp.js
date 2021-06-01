@@ -40,16 +40,17 @@ module.exports = class SignUp {
      * 
      * @param {*} userEmail 
      * @param {*} userPassword 
-     * @param {*} metaData 
+     * @param {*} metadata 
      * @returns 
      */
-    signup(userEmail, userPassword, metaData){
+    signup(userEmail, userPassword, metadata){
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle: userEmail,
-                password: userPassword,
-                metaData : JSON.stringify(metaData)
+                password: userPassword
             }; 
+            
+            if(metadata) dataToSend.metaData = JSON.stringify(metadata);
             
             this.httpService.post('/api/appuser/signup', dataToSend).then(result => {
                 resolve(result);

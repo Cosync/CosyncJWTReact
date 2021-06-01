@@ -58,13 +58,15 @@ module.exports = class Profile {
      * @param {*} senderUserId 
      * @returns 
      */
-    invite(handle, senderUserId){
+    invite(handle, senderUserId, metadata){
         return new Promise((resolve, reject) => {  
             
             let dataTosend = {
                 handle: handle, 
-                senderUserId: senderUserId
+                senderUserId: senderUserId 
             };
+
+            if(metadata) dataTosend.metaData = JSON.stringify(metadata);
 
             this.httpService.post('/api/appuser/invite', dataTosend).then(result => { 
                 if(result == true) resolve(result);

@@ -1,6 +1,6 @@
 {
   "name": "cosync-jwt-react-native",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native RESTful api for Cosnync JWT Services",
   "main": "index.js",
   "scripts": {

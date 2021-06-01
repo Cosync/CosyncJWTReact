@@ -41,18 +41,19 @@ module.exports = class Register {
      * @param {*} userEmail 
      * @param {*} userPassword 
      * @param {*} code 
-     * @param {*} metaData 
+     * @param {*} metadata 
      * @returns 
      */
-    register(userEmail, userPassword, code, metaData){
+    register(userEmail, userPassword, code, metadata){
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle: userEmail,
                 password: userPassword,
-                code: code,
-                metaData : JSON.stringify(metaData)
+                code: code
             }; 
             
+            if(metadata) dataTosend.metaData = JSON.stringify(metadata);
+
             this.httpService.post('/api/appuser/register', dataToSend).then(result => {
                 resolve(result);
             }).catch((error) => reject(error)); 
