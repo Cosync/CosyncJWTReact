@@ -16,48 +16,25 @@ The CosyncJWTReactNative provides a number of node functions
 
 ## configure
 
-import CosyncJWTReact from 'cosync-jwt-react-native';
-
 Create new instant to use the CosyncJWTReactNative to operate with a REST API that implements the CosyncJWT service protocol. This function should be called once at the time the application starts up.
 
 ```
-	let cosync = new CosyncJWTReact({appToken: String, accessToken: String, apiUrl: String});
+import CosyncJWTReactNative from 'cosync-jwt-react-native';
+let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String});
 ```
 
 ### Parameters
 
 **appToken** : String - this contains the application token for CosyncJWT (usually retrieved from the Keys section of the Cosync Portal.
 
-**accessToken** : String (optional for non authentication call) - this contains the user access token for CosyncJWT (usually retrieved from authentication services such as login.
-
 **apiUrl** : String - this optional parameter contains the HTTPS REST API address for the CosyncJWT service. The default is 'https://rest.cosync.net' if not specified.
 
 ### Example
 
 ```
-	let cosync = new CosyncJWTReact({appToken: String, accessToken: String, apiUrl: String});
+let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String});
 ```
-
----
-
-## config
-
-The set _config_ function call is used to the CosyncJWTReactNative to operate with a REST API that implements the CosyncJWT service protocol. This function should be called once you have new access token or after authentication.
-
-### Parameters
-
-**appToken** : String - this contains the application token for CosyncJWT (usually retrieved from the Keys section of the Cosync Portal.
-
-**accessToken** : String (optional for non authentication call) - this contains the user access token for CosyncJWT (usually retrieved from authentication services such as login.
-
-**apiUrl** : String - this optional parameter contains the HTTPS REST API address for the CosyncJWT service. The default is 'https://rest.cosync.net' if not specified.
-
-### Example
-
-```
-	cosync.config = {appToken: String, accessToken: String, apiUrl: String};
-```
-
+ 
 ## login
 
 The _login()_ function is used to login into a user's account. If the login is successful, a login credentials will resolve result from this function vice versa:
@@ -66,11 +43,11 @@ The _login()_ function is used to login into a user's account. If the login is s
 - **access-token**: the access token of the logged in user
 
 ```
-	login(handle, password) {
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+login(handle, password) {
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 If the application has enabled 2-factor google or phone verification, and the user has enabled 2-factor verification for his/her account, the **jwt** and **access-token** will be set to **undefined**, and the CosyncJWT service will return **login-token**
@@ -86,15 +63,22 @@ This **login-token** will be used by the _loginComplete()_ function, which is pa
 ### Example
 
 ```
-	cosync.login.login(handle, md5(password)).then(result => {
-		// login result here...
-		// jwt, access-token or login-token
+cosync.login.login(handle, password).then(result => {
+	// login result here...
+	// jwt, access-token or login-token
 
-	}).catch(err => {
-		// login invalid result here...
-		// code, message
+	let jwt = result['jwt'];
+	let accessToken = result['access-token'];
 
-    })
+	let loginToken = result['login-token'];
+
+}).catch(err => {
+	// login invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
+
+})
 ```
 
 ## loginComplete
@@ -107,11 +91,11 @@ If the loginComplete is successful, a login credentials will resolve result from
 - **accessToken**: the access token of the logged in user
 
 ```
-    loginComplete(loginToken, loginCode){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+loginComplete(loginToken, loginCode){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -122,16 +106,20 @@ If the loginComplete is successful, a login credentials will resolve result from
 ### Example
 
 ```
-    cosync.login.loginComplete(loginToken, loginCode).then(result => {
+cosync.login.loginComplete(loginToken, loginCode).then(result => {
 
-		// login result here...
-		// jwt, access-token
+	// login result here...
+	// jwt, access-token
+	let jwt = result['jwt'];
+	let accessToken = result['access-token'];
 
-	}).catch(err => {
-		// login invalid result here...
-		// code, message
+}).catch(err => {
+	// login invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
 
-    })
+})
 ```
 
 ## signup
@@ -141,11 +129,11 @@ The _signup()_ function is used to signup a user with a CosyncJWT application. T
 Metadata associated with the user is passed in as part of the signup process in the **metadata** parameter. The metadata is passed in as JSON object. The format of the metadata is specified in the Cosync Portal for the specific application in the **JWT** tab under the _Metadata Fields_ section.
 
 ```
-	signup(handle, password, metadata){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+signup(handle, password, metadata){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -159,25 +147,26 @@ Metadata associated with the user is passed in as part of the signup process in 
 ### Example
 
 ```
-	let metadata = {
-		user_data:{
-			name:{
-				first: "Jonh",
-				last: "Doe"
-			}
+let metadata = {
+	user_data:{
+		name:{
+			first: "Jonh",
+			last: "Doe"
 		}
-	};
+	}
+};
 
- 	cosync.signup.signup(handle, md5(password), metadata).then(result => {
+cosync.signup.signup(handle,password, metadata).then(result => {
 
-		// signup result here...
-		// jwt, access-token
+	// signup result is true
 
-	}).catch(err => {
-		// signup invalid result here...
-		// code, message
+}).catch(err => {
+	// signup invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
 
-    })
+})
 
 ```
 
@@ -188,11 +177,11 @@ The _completeSignup()_ function is used to complete a signup of a user with a Co
 If the call to _completeSignup()_ is successful, the function will resolve result from this function vice versa:
 
 ```
-	completeSignup(handle, code){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+completeSignup(handle, code){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 
 ```
 
@@ -205,16 +194,20 @@ If the call to _completeSignup()_ is successful, the function will resolve resul
 ### Example
 
 ```
-	cosync.signup.completeSignup(handle, code).then(result => {
+cosync.signup.completeSignup(handle, code).then(result => {
 
-		// signup result here...
-		// jwt, access-token
+	// signup result here...
+	// jwt, access-token
+	let jwt = result['jwt'];
+	let accessToken = result['access-token'];
 
-	}).catch(err => {
-		// signup invalid result here...
-		// code, message
+}).catch(err => {
+	// signup invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
 
-    })
+})
 ```
 
 ## invite
@@ -226,11 +219,11 @@ Invite metadata associated with the user is passed in as part of the invite proc
 The invitation process will also need to record the unique Realm user id of the inviting user. This is stored within the _senderUserId_ parameter of the _invite()_ function.
 
 ```
-	invite( handle, senderUserId, metadata){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+invite( handle, senderUserId, metadata){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -244,22 +237,23 @@ The invitation process will also need to record the unique Realm user id of the 
 ### Example
 
 ```
-	let metadata = {
-		invite_data: {
-			coupon: "premium"
-		}
-	};
+let metadata = {
+	invite_data: {
+		coupon: "premium"
+	}
+};
 
-	cosync.profile.invite(userEmail, senderUserId, metadata).then(result => {
+cosync.profile.invite(userEmail, senderUserId, metadata).then(result => {
 
-		// signup result here...
-		// jwt, access-token
+	 // invite result is true
 
-	}).catch(err => {
-		// signup invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
 
-    })
+})
 
 ```
 
@@ -272,11 +266,11 @@ Metadata associated with the invited user is passed in as part of the register p
 If the call to _register()_ is successful, the function will resolve result from this function vice versa:
 
 ```
-	register(handle, password, code, metadata){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+register(handle, password, code, metadata){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -292,29 +286,33 @@ If the call to _register()_ is successful, the function will resolve result from
 ### Example
 
 ```
-	let metadata = {
-		user_data:{
-			name:{
-				first: "Jonh",
-				last: "Doe"
-			}
+let metadata = {
+	user_data:{
+		name:{
+			first: "Jonh",
+			last: "Doe"
 		}
-	};
+	}
+};
 
 
-	cosync.register.register(handle, md5(password), code, metadata).then(result => {
+cosync.register.register(handle, password, code, metadata).then(result => {
 
-		// signup result here...
-		// jwt, access-token
+	// register result here...
+	// jwt, access-token
+	let jwt = result['jwt'];
+	let accessToken = result['access-token'];
 
-	}).catch(err => {
-		// signup invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
 
-    })
+})
 
 ```
- 
+
 ## getUser
 
 The _getUser()_ function is used by the client application to get information about the currently logged in user to CosyncJWT. The _getUser()_ function will resovle user data. These member variables include the following information:
@@ -329,12 +327,11 @@ The _getUser()_ function is used by the client application to get information ab
 - **lastLogin** : Date - last login date for user
 
 ```
-	getUser(){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-
-	}
+getUser(){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -344,16 +341,12 @@ None
 ### Example
 
 ```
-	cosync.profile.getUser().then(result => {
-
-		// result here...
-		 
-
-	}).catch(err => {
-		// invalid result here...
-		// code, message
-
-    })
+cosync.profile.getUser().then(result => {
+	// result here...
+}).catch(err => {
+	// invalid result here...
+	// code, message
+})
 
 ```
 
@@ -372,12 +365,11 @@ The _getApplication()_ function is used by the client application to get informa
 - **appData** : Date - last login date for user
 
 ```
-	getApplication(){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-
-	}
+getApplication(){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -387,14 +379,12 @@ None
 ### Example
 
 ```
-	cosync.app.getApplication().then(result => {  
-      // result here...
-
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
-
-    })
+cosync.app.getApplication().then(result => {
+	// result here...
+}).catch(err => {	
+	// invalid result here...
+	// code, message
+})
 
 ```
 
@@ -403,11 +393,11 @@ None
 The _setPhone()_ function is used by the client application to set the user's phone number, if **twoFactorVerification** for the application is set to `phone`. The phone number should be in E.164 format, and can include the prefix '+', e.g. "+19195551212". When a phone number is set, it will be initially considered unverified. After calling the _setPhone()_ function, the CosyncJWT system will send a six digit code SMS to the phone for verification. The application will then have to call the _verifyPhone()_ along with the six-digit code to verify the phone on behalf of the user.
 
 ```
-	setPhone(phoneNumber){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+setPhone(phoneNumber){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -417,14 +407,13 @@ The _setPhone()_ function is used by the client application to set the user's ph
 ### Example
 
 ```
-	cosync.profile.setPhone(phoneNumber).then(result => { 
-		// result here...
+cosync.profile.setPhone(phoneNumber).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
-
-    })
+}).catch(err => {
+	// invalid result here...
+	// code, message
+})
 
 ```
 
@@ -433,11 +422,11 @@ The _setPhone()_ function is used by the client application to set the user's ph
 The _verifyPhone()_ function is used by the client application to verify a user's phone number, after a call to the _setPhone()_ function. The _verifyPhone()_ must passed a six-digit code that was sent to the user's phone.
 
 ```
-	verifyPhone(code){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+verifyPhone(code){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -447,14 +436,13 @@ The _verifyPhone()_ function is used by the client application to verify a user'
 ### Example
 
 ```
-	cosync.profile.verifyPhone(code).then(result => { 
-		// result here...
+cosync.profile.verifyPhone(code).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
-
-    })
+}).catch(err => {
+    // invalid result here...
+	// code, message
+})
 
 
 ```
@@ -464,11 +452,11 @@ The _verifyPhone()_ function is used by the client application to verify a user'
 The _setTwoFactorPhoneVerification()_ function is used by the client application to enable two factor phone verification for the current logged in user. This function will only enable phone 2FA is the CosyncJWT application has **twoFactorVerification** set to `phone` and the user has a verified phone number.
 
 ```
-	setTwoFactorPhoneVerification(twoFactor){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+setTwoFactorPhoneVerification(twoFactor){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -478,14 +466,14 @@ The _setTwoFactorPhoneVerification()_ function is used by the client application
 ### Example
 
 ```
-	cosync.profile.setTwoFactorPhoneVerification(true).then(result => { 
-		// result here...
+cosync.profile.setTwoFactorPhoneVerification(true).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
 
-    })
+})
 
 ```
 
@@ -496,11 +484,11 @@ The _setTwoFactorGoogleVerification()_ function is used by the client applicatio
 Note: The Google 2FA authentication system is more secure than simple phone 2FA, because the Google codes rotate every minute. Also, the Google 2FA authentication is free is does not require a TWILIO account for SMS phone verification.
 
 ```
-	setTwoFactorGoogleVerification(twoFactor){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+setTwoFactorGoogleVerification(twoFactor){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -510,14 +498,14 @@ Note: The Google 2FA authentication system is more secure than simple phone 2FA,
 ### Example
 
 ```
-	cosync.profile.setTwoFactorGoogleVerification(true).then(result => { 
-		// result here...
+cosync.profile.setTwoFactorGoogleVerification(true).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
 
-    })
+})
 
 ```
 
@@ -526,11 +514,11 @@ Note: The Google 2FA authentication system is more secure than simple phone 2FA,
 The _forgotPassword()_ function is used by the client application to enable a user to reset the password for their account. After calling this function, the user will be sent a reset password email along with a six-digit code to reset their password. The password is reset by calling the _resetPassword()_ function. The user does not need to be logged in for this function to work.
 
 ```
-	forgotPassword(handle){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+forgotPassword(handle){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -540,16 +528,16 @@ The _forgotPassword()_ function is used by the client application to enable a us
 ### Example
 
 ```
-	cosync.password.forgotPassword(handle).then(result => { 
-		// result here...
+cosync.password.forgotPassword(handle).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
 
-    })
+})
 
-     
+
 ```
 
 ## resetPassword
@@ -557,12 +545,11 @@ The _forgotPassword()_ function is used by the client application to enable a us
 The _resetPassword()_ function is used by the client application to reset the password for their account after issuing a _forgotPassword()_ function call. The user does not need to be logged in for this function to work.
 
 ```
-	resetPassword(handle, password, code){
-
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+resetPassword(handle, password, code){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -574,14 +561,14 @@ The _resetPassword()_ function is used by the client application to reset the pa
 ### Example
 
 ```
-	cosync.password.resetPassword(handle, password, code).then(result => { 
-		// result here...
+cosync.password.resetPassword(handle, password, code).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
 
-    })
+})
 
 
 ```
@@ -591,11 +578,11 @@ The _resetPassword()_ function is used by the client application to reset the pa
 The _changePassword()_ function is used by the client application to change the password of the current logged in user. The user must be logged in for this function to work.
 
 ```
-	changePassword(newPassword, password){
-		return new Promise((resolve, reject) => {
-			resolve(result) or reject(err)
-		})
-	}
+changePassword(newPassword, password){
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
 ```
 
 ### Parameters
@@ -606,15 +593,52 @@ The _changePassword()_ function is used by the client application to change the 
 ### Example
 
 ```
-	cosync.password.changePassword(md5(newPassword), md5(password)).then(result => { 
-		// result here...
+cosync.password.changePassword(newPassword, password).then(result => {
+	// result here...
 
-    }).catch(err => {
-     	// invalid result here...
-		// code, message
+}).catch(err => {
+	// invalid result here...
+	// code, message
 
-    })
+})
 
 
+
+```
+
+
+## checkPassword
+
+The *checkPassword()* function is used by the client application to check whether a password conforms to the *password filtering* parameters set for the application in the Cosync Portal. When using CosyncJWT, a developer can require that user for an application meet specific password requirements, which include:
+
+* minimum length
+* minimum upper-case letters
+* minimum lower-case letters
+* minimum number of digits (0…9)
+* minimum special characters
+
+The special characters include @, %, +, , /, ‘, !, #, $, ^, ?, :, (, ), [, ], ~, `, -, _, ., and ,
+
+The *password filtering* parameters are set by the developer in the Cosync Portal, but actual password enforcement takes place at the client side. The reason for this is that passwords are sent to the CosyncJWT service as MD5 hashed strings, so there is no way to enforce this at the server level. This function is automatically called by the *signup()* function, so does not need to be called by the application code.
+
+```
+checkPassword(password){
+	return new Promise((resolve, reject) => {
+		resolve(result)
+	})
+
+}
+```
+
+### Parameters
+
+**password** : String - this contains the user's password.
+
+### Example
+
+```
+cosync.password.checkPassword(password).then(result => {
+	// result is true or flase
+})
 
 ```
