@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Cosync/CosyncJWTReact/issues"
   },
-  "homepage": "https://github.com/Cosync/CosyncJWTReact#readme"
+  "homepage": "https://github.com/Cosync/CosyncJWTReact#readme",
+  "dependencies": {
+    "md5": "^2.3.0"
+  }
 }

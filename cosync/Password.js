@@ -27,7 +27,8 @@
 // 
 
 'use strict';
-  
+import md5 from 'md5';
+
 module.exports = class Password {
 
     /**
@@ -47,7 +48,7 @@ module.exports = class Password {
      */
     changePassword(userPassword, newPassword){
         return new Promise((resolve, reject) => {  
-            let dataToSend = { password: userPassword, newPassword: newPassword };
+            let dataToSend = { password: md5(userPassword), newPassword: md5(newPassword) };
             
             this.httpService.post('/api/appuser/changePassword', dataToSend).then(result => {
                 if(result == true) resolve(result);
@@ -83,15 +84,51 @@ module.exports = class Password {
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle:userEmail, 
-                password: userPassword, 
+                password: md5(userPassword), 
                 code:resetCode
             };
 
             this.httpService.post('/api/appuser/resetPassword', dataToSend).then(result => {
                 if(result == true) resolve(true);
                 else reject(result);
-
             }).catch((error) => reject(error)); 
+        });
+    }
+
+    /**
+     * 
+     * @param {*} password 
+     */
+
+    validatePassword(password){
+        return new Promise((resolve, reject) => {
+            let result = true;
+            if(global.cosyncAppData.passwordFilter == true){
+
+                if(global.cosyncAppData.passwordMinLength > 0 && global.cosyncAppData.passwordMinLength < password.length) result = false;
+                
+                if(global.cosyncAppData.passwordMinUpper > 0){ 
+                    let numUpper = password.length - password.replace(/[A-Z]/g, '').length;  
+                    if(numUpper < global.cosyncAppData.passwordMinUpper) result = false;
+                }
+                
+                if(global.cosyncAppData.passwordMinLower > 0){ 
+                    let numLower = password.length - password.replace(/[a-a]/g, '').length;  
+                    if(numLower < global.cosyncAppData.passwordMinLower) result = false;
+                }
+                
+                if(global.cosyncAppData.passwordMinDigit > 0){ 
+                    let numDigit = password.length - password.replace(/[0-9]/g, '').length;  
+                    if(numDigit < global.cosyncAppData.passwordMinDigit) result = false;
+                }
+
+                if(global.cosyncAppData.passwordMinSpecial > 0){ 
+                    let regex = /[`~!@#$%^&*()-_/,.?":[]|<>]/g;
+                    let numSpecial  = password.match(regex).length;  
+                    if(numSpecial < global.cosyncAppData.passwordMinDigit) result = false;
+                }
+            }
+            resolve(result);
         });
     }
 

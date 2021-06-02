@@ -25,7 +25,8 @@
 // 
 
 'use strict';
- 
+import md5 from 'md5';
+
 module.exports = class Register {
 
     /**
@@ -48,13 +49,14 @@ module.exports = class Register {
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle: userEmail,
-                password: userPassword,
+                password: md5(userPassword),
                 code: code
             }; 
             
             if(metadata) dataTosend.metaData = JSON.stringify(metadata);
 
             this.httpService.post('/api/appuser/register', dataToSend).then(result => {
+                if(result['access-token']) global.cosyncConfig.accessToken = result['access-token'];
                 resolve(result);
             }).catch((error) => reject(error)); 
         })

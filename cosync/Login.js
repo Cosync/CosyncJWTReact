@@ -27,6 +27,7 @@
 // 
 
 'use strict'; 
+import md5 from 'md5';
 
 module.exports = class Login {
 
@@ -46,15 +47,19 @@ module.exports = class Login {
      * @returns 
      */
     login(userEmail, userPassword){
-        return new Promise((resolve, reject) => {  
+        return new Promise((resolve, reject) => {
+
             let dataToSend = {
                 handle: userEmail,
-                password: userPassword
+                password: md5(userPassword)
             }; 
             
             this.httpService.post('/api/appuser/login', dataToSend).then(result => {
                 if(result.code) reject(result);
-                else resolve(result);
+                else{
+                    if(result['access-token']) global.cosyncConfig.accessToken = result['access-token'];
+                    resolve(result);
+                } 
             }).catch((error) => reject(error)); 
         })
     }
@@ -75,6 +80,7 @@ module.exports = class Login {
 
             this.httpService.post('/api/appuser/loginComplete', dataToSend).then(result => {
                 if(result && result.jwt){ 
+                    if(result['access-token']) global.cosyncConfig.accessToken = result['access-token'];
                     resolve(result);
                 } 
                 else reject(result);

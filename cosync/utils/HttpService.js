@@ -35,7 +35,20 @@ module.exports  = class HttpService {
      * }
      */
     constructor(config) {
-        this.config = config;
+
+        if(!config) {
+            throw('HttpService: Invalid Config...');
+        }
+
+        if(global.cosyncConfig){
+            global.cosyncConfig.apiUrl = config.apiUrl;
+            global.cosyncConfig.appToken = config.appToken;
+
+            if(config.accessToken) global.cosyncConfig.accessToken = config.accessToken;
+        }
+        else global.cosyncConfig = config;
+
+        
     } 
 
     /**
@@ -53,10 +66,10 @@ module.exports  = class HttpService {
                 }
             }; 
     
-            if(this.config.accessToken) option.headers['access-token'] = this.config.accessToken;
-            else option.headers['app-token'] = this.config.appToken;
+            if(global.cosyncConfig.accessToken) option.headers['access-token'] = global.cosyncConfig.accessToken;
+            else option.headers['app-token'] = global.cosyncConfig.appToken;
     
-            fetch(`${this.config.apiUrl}${endpoint}`, option)
+            fetch(`${global.cosyncConfig.apiUrl}${endpoint}`, option)
             .then((response) => response.json())
             .then((json) => resolve(json))
             .catch((error) => reject(error)); 
@@ -83,10 +96,10 @@ module.exports  = class HttpService {
     
             if(data) option.body = JSON.stringify(data);  
     
-            if(this.config.accessToken) option.headers['access-token'] = this.config.accessToken;
-            else option.headers['app-token'] = this.config.appToken; 
+            if(global.cosyncConfig.accessToken) option.headers['access-token'] = global.cosyncConfig.accessToken;
+            else option.headers['app-token'] = global.cosyncConfig.appToken; 
     
-            fetch(`${this.config.apiUrl}${endpoint}`, option)
+            fetch(`${global.cosyncConfig.apiUrl}${endpoint}`, option)
             .then((response) => response.json())
             .then((json) => resolve(json))
             .catch((error) => reject(error)); 

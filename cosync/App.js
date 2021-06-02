@@ -47,7 +47,10 @@ module.exports = class App {
             
             this.httpService.fetchData('/api/appuser/getApplication').then(result => {
                 if(result.code) reject(result);
-                else resolve(result);
+                else{
+                    global.cosyncAppData = result;
+                    resolve(result);
+                } 
             }).catch((error) => reject(error)); 
         })
     }
