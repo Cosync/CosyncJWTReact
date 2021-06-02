@@ -125,12 +125,15 @@ module.exports = class Password {
             if(global.cosyncAppData.passwordMinSpecial > 0){ 
                 let specialFormat = '`~!@#$%^&*()-_/,.?":[]'; 
                 let regExpr = /[^a-zA-Z0-9 ]/g;
-                let special = password.match(regExpr);   
-                let numSpecial = 0;
-                special.forEach(el => {
-                    if(specialFormat.indexOf(el) >= 0) numSpecial++;
-                });  
-                if(numSpecial < global.cosyncAppData.passwordMinDigit) result = false;
+                let special = password.match(regExpr); 
+                if(special){ 
+                    let numSpecial = 0;
+                    special.forEach(el => {
+                        if(specialFormat.indexOf(el) >= 0) numSpecial++;
+                    });  
+                    if(numSpecial < global.cosyncAppData.passwordMinDigit) result = false;
+                }
+                else result = false;
             }
         }
         return result;
