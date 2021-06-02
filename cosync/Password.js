@@ -101,35 +101,40 @@ module.exports = class Password {
      */
 
     validatePassword(password){
-        return new Promise((resolve, reject) => {
-            let result = true;
-            if(global.cosyncAppData.passwordFilter == true){
+         
+        let result = true;
+        if(global.cosyncAppData.passwordFilter == true){
 
-                if(global.cosyncAppData.passwordMinLength > 0 && global.cosyncAppData.passwordMinLength < password.length) result = false;
-                
-                if(global.cosyncAppData.passwordMinUpper > 0){ 
-                    let numUpper = password.length - password.replace(/[A-Z]/g, '').length;  
-                    if(numUpper < global.cosyncAppData.passwordMinUpper) result = false;
-                }
-                
-                if(global.cosyncAppData.passwordMinLower > 0){ 
-                    let numLower = password.length - password.replace(/[a-a]/g, '').length;  
-                    if(numLower < global.cosyncAppData.passwordMinLower) result = false;
-                }
-                
-                if(global.cosyncAppData.passwordMinDigit > 0){ 
-                    let numDigit = password.length - password.replace(/[0-9]/g, '').length;  
-                    if(numDigit < global.cosyncAppData.passwordMinDigit) result = false;
-                }
-
-                if(global.cosyncAppData.passwordMinSpecial > 0){ 
-                    let regex = /[`~!@#$%^&*()-_/,.?":[]|<>]/g;
-                    let numSpecial  = password.match(regex).length;  
-                    if(numSpecial < global.cosyncAppData.passwordMinDigit) result = false;
-                }
+            if(global.cosyncAppData.passwordMinLength > 0 && global.cosyncAppData.passwordMinLength > password.length) result = false;
+            
+            if(global.cosyncAppData.passwordMinUpper > 0){ 
+                let numUpper = password.length - password.replace(/[A-Z]/g, '').length;  
+                if(numUpper < global.cosyncAppData.passwordMinUpper) result = false;
             }
-            resolve(result);
-        });
+            
+            if(global.cosyncAppData.passwordMinLower > 0){ 
+                let numLower = password.length - password.replace(/[a-z]/g, '').length;   
+                if(numLower < global.cosyncAppData.passwordMinLower) result = false;
+            }
+            
+            if(global.cosyncAppData.passwordMinDigit > 0){ 
+                let numDigit = password.length - password.replace(/[0-9]/g, '').length; 
+                if(numDigit < global.cosyncAppData.passwordMinDigit) result = false;
+            }
+
+            if(global.cosyncAppData.passwordMinSpecial > 0){ 
+                let specialFormat = '`~!@#$%^&*()-_/,.?":[]'; 
+                let regExpr = /[^a-zA-Z0-9 ]/g;
+                let special = password.match(regExpr);   
+                let numSpecial = 0;
+                special.forEach(el => {
+                    if(specialFormat.indexOf(el) >= 0) numSpecial++;
+                });  
+                if(numSpecial < global.cosyncAppData.passwordMinDigit) result = false;
+            }
+        }
+        return result;
+         
     }
 
 }
