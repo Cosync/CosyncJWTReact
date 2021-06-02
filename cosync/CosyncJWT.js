@@ -31,7 +31,8 @@ const Login = require("./Login");
 const SignUp = require("./SignUp");
 const Password = require("./Password");
 const Register = require("./Register");
-const HttpService = require("./utils/HttpService");
+const HttpService = require("./utils/HttpService"); 
+const RealmManager = require("./utils/RealmManager");
 
 let _profile, _app, _login, _signup, _pasword, _config, _register;
 
@@ -47,6 +48,15 @@ module.exports = class CosyncJWT {
     constructor(data) {
         this.config = data;
     } 
+
+    /**
+     * 
+     */
+
+    get realmManager(){
+        let realm = new RealmManager();
+        return realm;
+    }
 
     /**
      * 

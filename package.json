@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Cosync/CosyncJWTReact#readme",
   "dependencies": {
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "realm": "^10.4.1"
   }
 }
