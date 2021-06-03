@@ -358,7 +358,7 @@ cosync.profile.getUser().then(result => {
 
 The _getApplication()_ function is used by the client application to get information about the application within CosyncJWT. The _getApplication()_ function will resolve application information. These member variables include the following information:
 
-- **appName** : String - application name as stored in CosyncJWT
+- **name** : String - application name as stored in CosyncJWT
 - **twoFactorVerification** : String - 2FA type 'phone', 'google', or 'none'
 - **passwordFilter** : Bool - whether password filtering is turned on
 - **passwordMinLength** : Int - minimum password length
@@ -366,7 +366,13 @@ The _getApplication()_ function is used by the client application to get informa
 - **passwordMinLower** : Int - minimum number of lower case characters
 - **passwordMinDigit** : Int - minimum number of digits
 - **passwordMinSpecial** : Int - minimum number of special characters
-- **appData** : Date - last login date for user
+- **appData** : Object - installed verson of Cosync Service 
+- **invitationEnabled** : Bool - app alow invitation
+- **signupEnabled** : Bool - app alow signup
+- **signupFlow** : String - signup flow can be 'code', 'link', or 'none'
+- **metaData** : Object - Metadata format of app user
+- **metaDataInvite** : Object - Metadata format of app invitation
+- **userJWTExpiration** : Bool - JWT expired time
 
 ```
 getApplication(){

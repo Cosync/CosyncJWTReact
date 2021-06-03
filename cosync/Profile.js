@@ -67,14 +67,14 @@ module.exports = class Profile {
                 return;
             }
 
-            let dataTosend = {
+            let dataToSend = {
                 handle: handle, 
                 senderUserId: senderUserId || global.realmUser.id
             };
 
-            if(metadata) dataTosend.metaData = JSON.stringify(metadata);
+            if(metadata) dataToSend.metaData = JSON.stringify(metadata);
 
-            this.httpService.post('/api/appuser/invite', dataTosend).then(result => { 
+            this.httpService.post('/api/appuser/invite', dataToSend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -90,11 +90,11 @@ module.exports = class Profile {
     verifyPhone(code){
         return new Promise((resolve, reject) => {  
             
-            let dataTosend = {
+            let dataToSend = {
                 code: code 
             };
 
-            this.httpService.post('/api/appuser/verifyPhone', dataTosend).then(result => { 
+            this.httpService.post('/api/appuser/verifyPhone', dataToSend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -110,11 +110,11 @@ module.exports = class Profile {
     setPhone(phone){
         return new Promise((resolve, reject) => {  
             
-            let dataTosend = {
+            let dataToSend = {
                 phone: phone 
             };
 
-            this.httpService.post('/api/appuser/setPhone', dataTosend).then(result => { 
+            this.httpService.post('/api/appuser/setPhone', dataToSend).then(result => { 
                 if(result == true) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 
@@ -130,11 +130,11 @@ module.exports = class Profile {
     setTwoFactorGoogleVerification(value){
         return new Promise((resolve, reject) => {  
             
-            let dataTosend = {
+            let dataToSend = {
                 twoFactor: value 
             };
 
-            this.httpService.post('/api/appuser/setTwoFactorGoogleVerification', dataTosend).then(result => { 
+            this.httpService.post('/api/appuser/setTwoFactorGoogleVerification', dataToSend).then(result => { 
                 if(result == true || result.googleSecretKey) resolve(result);
                 else reject(result);
             }).catch((error) => reject(error)); 

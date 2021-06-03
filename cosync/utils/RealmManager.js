@@ -64,7 +64,7 @@ module.exports  = class RealmManager {
   }
 
   logout(){
-    if(this.realmApp) this.realmApp.currentUser.logOut();
+    if(this.realmApp && this.realmApp.currentUser) this.realmApp.currentUser.logOut();
   }
 
   get realm(){

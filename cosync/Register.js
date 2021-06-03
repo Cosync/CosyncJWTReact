@@ -53,7 +53,7 @@ module.exports = class Register {
                 code: code
             }; 
             
-            if(metadata) dataTosend.metaData = JSON.stringify(metadata);
+            if(metadata) dataToSend.metaData = JSON.stringify(metadata);
 
             this.httpService.post('/api/appuser/register', dataToSend).then(result => {
                 if(result['access-token']) global.cosyncConfig.accessToken = result['access-token'];
