@@ -140,14 +140,6 @@ class CosyncJWT {
         global.cosyncConfig.accessToken = null;
         global.realmUser = null;
         if(this._realm) this._realm.logout();
-        this._profile = null;
-        this._app =  null;
-        this._login = null;
-        this._signup =  null;
-        this._pasword = null;
-        this._config = null;
-        this._register = null;
-        this._realm = null;
     }
 
 }

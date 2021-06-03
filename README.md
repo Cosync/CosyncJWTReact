@@ -20,7 +20,7 @@ Create new instant to use the CosyncJWTReactNative to operate with a REST API th
 
 ```
 import CosyncJWTReactNative from 'cosync-jwt-react-native';
-let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String});
+let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String}).getInstance();
 ```
 
 ### Parameters
@@ -32,7 +32,7 @@ let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String});
 ### Example
 
 ```
-let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String});
+let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String}).getInstance();
 ```
  
 ## login
@@ -69,6 +69,8 @@ cosync.login.login(handle, password).then(result => {
 
 	let jwt = result['jwt'];
 	let accessToken = result['access-token'];
+
+	or
 
 	let loginToken = result['login-token'];
 
@@ -121,6 +123,8 @@ cosync.login.loginComplete(loginToken, loginCode).then(result => {
 
 })
 ```
+
+## realm login
 
 ## signup
 
@@ -216,10 +220,10 @@ The _invite()_ function is used to invite a user email into the CosyncJWT applic
 
 Invite metadata associated with the user is passed in as part of the invite process in the **metadata** parameter. The metadata is passed in as JSON object. The format of the metadata is specified in the Cosync Portal for the specific application in the **JWT** tab under the _Invite Metadata Fields_ section. The invite metadata could be used to encode a coupon value for the invited user, or any other data the developer sees fit.
 
-The invitation process will also need to record the unique Realm user id of the inviting user. This is stored within the _senderUserId_ parameter of the _invite()_ function.
+The invitation process will also need to record the unique Realm user id of the inviting user. This is stored within the _senderUserId_ parameter of the _invite()_ function. If the _senderUserId_ is not provided, the function will use current logged in Realm user id.
 
 ```
-invite( handle, senderUserId, metadata){
+invite( handle, metadata, senderUserId){
 	return new Promise((resolve, reject) => {
 		resolve(result) or reject(err)
 	})
@@ -243,7 +247,7 @@ let metadata = {
 	}
 };
 
-cosync.profile.invite(userEmail, senderUserId, metadata).then(result => {
+cosync.profile.invite(userEmail, metadata, senderUserId).then(result => {
 
 	 // invite result is true
 
@@ -640,5 +644,29 @@ checkPassword(password){
 cosync.password.checkPassword(password).then(result => {
 	// result is true or flase
 })
+
+```
+
+
+
+## logout
+
+The *logout()* function is used by the client application to logout current logged in user. The function also logout user from MongodBD Realm.
+
+
+
+```
+logout(){
+}
+```
+
+### Parameters
+
+None
+
+### Example
+
+```
+cosync.logout();
 
 ```
