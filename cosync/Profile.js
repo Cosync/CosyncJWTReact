@@ -58,12 +58,12 @@ module.exports = class Profile {
      * @param {*} senderUserId 
      * @returns 
      */
-    invite(handle, senderUserId, metadata){
+    invite(handle, metadata){
         return new Promise((resolve, reject) => {  
             
             let dataTosend = {
                 handle: handle, 
-                senderUserId: senderUserId 
+                senderUserId: global.realmUser.id
             };
 
             if(metadata) dataTosend.metaData = JSON.stringify(metadata);

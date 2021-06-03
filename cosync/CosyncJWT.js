@@ -34,9 +34,9 @@ const Register = require("./Register");
 const HttpService = require("./utils/HttpService"); 
 const RealmManager = require("./utils/RealmManager");
 
-let _profile, _app, _login, _signup, _pasword, _config, _register;
+let _profile, _app, _login, _signup, _pasword, _config, _register, _realm;
 
-module.exports = class CosyncJWT {
+class CosyncJWT {
 
     /**
      * 
@@ -54,8 +54,8 @@ module.exports = class CosyncJWT {
      */
 
     get realmManager(){
-        let realm = new RealmManager();
-        return realm;
+        _realm = new RealmManager();
+        return _realm;
     }
 
     /**
@@ -68,8 +68,9 @@ module.exports = class CosyncJWT {
     set config(data){ 
        
         if(!data.apiUrl || data.apiUrl == '' ) data.apiUrl = 'https://rest.cosync.net';
-
+         
         _config = data;
+
         this.httpService = new HttpService(data);
 
         _pasword = new Password(this.httpService);
@@ -135,6 +136,35 @@ module.exports = class CosyncJWT {
         return _pasword;
     }
 
+    logout(){
+        global.cosyncConfig.accessToken = null;
+        global.realmUser = null;
+        if(this._realm) this._realm.logout();
+        this._profile = null;
+        this._app =  null;
+        this._login = null;
+        this._signup =  null;
+        this._pasword = null;
+        this._config = null;
+        this._register = null;
+        this._realm = null;
+    }
+
 }
   
+
+class Singleton {
+
+    constructor(data) {
+        if (!Singleton.instance) {
+            Singleton.instance = new CosyncJWT(data);
+        }
+    }
+  
+    getInstance() {
+        return Singleton.instance;
+    }
+  
+}
  
+module.exports = Singleton;
