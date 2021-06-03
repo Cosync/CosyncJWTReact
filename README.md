@@ -58,7 +58,7 @@ This **login-token** will be used by the _loginComplete()_ function, which is pa
 
 **handle** : String - this contains the user's handle or email.
 
-**password** : String - this contains the user's password and must be md5 string.
+**password** : String - this contains the user's password.
 
 ### Example
 
@@ -144,7 +144,7 @@ signup(handle, password, metadata){
 
 **handle** : String - this contains the user's handle or email.
 
-**password** : String - this contains the user's password and the password must be md5 string.
+**password** : String - this contains the user's password.
 
 **metadata** : Object - JSON object of the metadata.
 
@@ -597,8 +597,8 @@ changePassword(newPassword, password){
 
 ### Parameters
 
-**newPassword** : String - new password for the account. The password must be md5 string.
-**password** : String - old password for the account. The password must be md5 string.
+**newPassword** : String - new password for the account.
+**password** : String - old password for the account.
 
 ### Example
 
