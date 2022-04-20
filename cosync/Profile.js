@@ -124,6 +124,27 @@ module.exports = class Profile {
 
     /**
      * 
+     * @param {*} metadata 
+     * @returns true 
+     */
+     setUserMetadata(metadata){
+        return new Promise((resolve, reject) => {  
+            
+            let dataToSend = {
+                metaData: metadata 
+            };
+
+            this.httpService.post('/api/appuser/setUserMetadata', dataToSend).then(result => { 
+                if(result == true) resolve(result);
+                else reject(result);
+            }).catch((error) => reject(error)); 
+        })
+    }
+
+
+
+    /**
+     * 
      * @param {boolean} value 
      * @returns  
      */
