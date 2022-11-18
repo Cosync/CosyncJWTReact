@@ -34,6 +34,50 @@ let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String}).getIns
 ```
 let cosync = new CosyncJWTReactNative({appToken: String, apiUrl: String}).getInstance();
 ```
+
+## loginAnonymous
+
+The _loginAnonymous()_ function is used to login into a anonymous user's account and create anonymous account if the user doesn't exist. If the login is successful, a login credentials will resolve result from this function vice versa:
+
+- **jwt**: the JWT token of the logged in user
+- **access-token**: the access token of the logged in user
+
+
+```
+loginAnonymous(handle) {
+	return new Promise((resolve, reject) => {
+		resolve(result) or reject(err)
+	})
+}
+```
+
+
+### Parameters
+
+**handle** : String - this contains the user's handle (ANON_[UUID]). 
+
+### Example
+
+```
+cosync.login.loginAnonymous(handle).then(result => {
+	// login result here...
+	// jwt, access-token or login-token
+
+	let jwt = result['jwt'];
+	let accessToken = result['access-token'];
+
+	or
+
+	let loginToken = result['login-token'];
+
+}).catch(err => {
+	// login invalid result here...
+	// code, message
+	let code = err.code;
+	let message = err.message;
+
+})
+```
  
 ## login
 

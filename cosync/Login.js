@@ -46,6 +46,15 @@ module.exports = class Login {
      loginAnonymous(userHandle){
         return new Promise((resolve, reject) => {
 
+            if(userHandle.indexOf("ANON_") < 0){
+                let error = {
+                    code: 600,
+                    message: "invalid anonymous handle. Please start with ANON_[uuid]"
+                }
+                reject(error); 
+                return
+            }
+
             let dataToSend = {
                 handle: userHandle
             }; 
