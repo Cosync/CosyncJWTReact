@@ -38,6 +38,27 @@ module.exports = class Login {
     constructor(httpService) {
         this.httpService = httpService;
     } 
+    /**
+     * 
+     * @param {*} userHandle :start with ANON_ 
+     * @returns 
+     */
+     loginAnonymous(userHandle){
+        return new Promise((resolve, reject) => {
+
+            let dataToSend = {
+                handle: userHandle
+            }; 
+            
+            this.httpService.post('/api/appuser/loginAnonymous', dataToSend).then(result => {
+                if(result.code) reject(result);
+                else{
+                    if(result['access-token']) global.cosyncConfig.accessToken = result['access-token'];
+                    resolve(result);
+                } 
+            }).catch((error) => reject(error)); 
+        })
+    }
 
 
     /**

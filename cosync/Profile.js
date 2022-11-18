@@ -131,7 +131,7 @@ module.exports = class Profile {
         return new Promise((resolve, reject) => {  
             
             let dataToSend = {
-                metaData: metadata 
+                metaData: JSON.stringify(metadata) 
             };
 
             this.httpService.post('/api/appuser/setUserMetadata', dataToSend).then(result => { 
