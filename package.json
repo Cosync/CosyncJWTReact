@@ -1,6 +1,6 @@
 {
   "name": "cosync-jwt-react-native",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "React Native RESTful api for Cosnync JWT Services",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/Cosync/CosyncJWTReact#readme",
   "dependencies": {
+    "@realm/react": "^0.4.1",
     "md5": "^2.3.0",
-    "realm": "^10.4.1"
+    "realm": "^11.3.0"
   }
 }

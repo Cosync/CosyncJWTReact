@@ -22,7 +22,7 @@
 //  Created by Tola Voeung.
 //  Copyright © 2020 cosync. All rights reserved.
 //
-import Realm from "realm";  
+import { Realm } from '@realm/react' 
 
 
 module.exports  = class RealmManager {  
