@@ -101,6 +101,25 @@ module.exports = class Profile {
         })
     }
 
+     /**
+     * 
+     * @param {*} code 
+     * @returns 
+     */
+     setLocale(localeCode){
+        return new Promise((resolve, reject) => {  
+            
+            let dataToSend = {
+                locale: localeCode 
+            };
+
+            this.httpService.post('/api/appuser/setLocale', dataToSend).then(result => { 
+                if(result == true) resolve(result);
+                else reject(result);
+            }).catch((error) => reject(error)); 
+        })
+    }
+
 
     /**
      * 
