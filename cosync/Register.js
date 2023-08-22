@@ -43,14 +43,16 @@ module.exports = class Register {
      * @param {*} userPassword 
      * @param {*} code 
      * @param {*} metadata 
+     * @param {*} locale
      * @returns 
      */
-    register(userEmail, userPassword, code, metadata){
+    register(userEmail, userPassword, code, metadata, locale){
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle: userEmail,
                 password: md5(userPassword),
-                code: code
+                code: code,
+                locale : locale
             }; 
             
             if(metadata) dataToSend.metaData = JSON.stringify(metadata);

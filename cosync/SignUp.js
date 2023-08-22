@@ -42,13 +42,15 @@ module.exports = class SignUp {
      * @param {*} userEmail 
      * @param {*} userPassword 
      * @param {*} metadata 
+     * @param {*} locale 
      * @returns 
      */
-    signup(userEmail, userPassword, metadata){
+    signup(userEmail, userPassword, metadata, locale){
         return new Promise((resolve, reject) => {  
             let dataToSend = {
                 handle: userEmail,
-                password: md5(userPassword)
+                password: md5(userPassword),
+                locale: locale
             }; 
             
             if(metadata) dataToSend.metaData = JSON.stringify(metadata);
